@@ -8,9 +8,11 @@ const config = require('./config/key');
 
 const { User } = require('./models/User');
 
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const mongoose = require('mongoose');
 mongoose.connect(config.mongoURI, {
@@ -61,6 +63,18 @@ app.post('/login', (req, res) => {
       }
       //비밀번호까지 일치한다면 토큰생성하기
       //유저 모델에서 만든 메소드 사용(토큰생성)
+      user.generateToken((err, user) => {
+        if(err) return res.status(400).send(err);
+        //토큰을 어디에 저장해줘야하는데
+        //선택지는 여러가지 쿠키, 로컬스토리지
+        //여기서는 쿠키에 할거야
+        res.cookie('x_auth', user.token)
+        .status(200)
+        .json({
+          loginSuccess: true,
+          userId: user._id
+        })
+      })
     })
   })
 })
