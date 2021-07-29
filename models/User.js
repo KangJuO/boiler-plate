@@ -52,11 +52,26 @@
                 if(err) return next(err);
                 //정상적으로 암호화 됬다면
                 user.password = hash;
-                next()
+                next();
             });
         });
     }
+    //password를 바꾸는게 아니라 다른걸 바꿀때
+    else{
+        next();
+    }
  })
+ //비밀번호를 검사하는 method
+ userSchema.methods.comparePassword = function(plainPassword, callback){
+    //비밀번호와 암호화된 비밀번호가 일치하는지 확인
+    //비밀번호를 다시 암호화해서 일치하는지 확인
+    bcrypt.compare(plainPassword, this.password, function(err,isMatch){
+        //비밀전호가 다르면 콜백에 에러 넘겨주기
+        if(err) return callback(err);
+        //같으면
+        callback(null, isMatch)
+    })
+ }
 
  const User = mongoose.model('User', userSchema); //스키마를 모델로 감싸줌 (이름, 스키마)
 
