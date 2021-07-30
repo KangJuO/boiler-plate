@@ -3,13 +3,12 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
-const config = require('./config/key');
-
-const { User } = require('./models/User');
-
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const config = require('./config/key');
+const { User } = require('./models/User');
+const { auth } = require('./middleware/auth');
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -27,7 +26,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
   //회원가입시 필요한 정보들을 client에서 가져오면
   //가져온 정보들을 db에 넣어준다.
   const user = new User(req.body);
@@ -78,6 +77,22 @@ app.post('/login', (req, res) => {
     })
   })
 })
+
+//인증
+app.get('/api/users/auth', auth, (req, res)=> {
+  //미들웨어를 통과했다면 인증을 통과했다는것
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true, // role 0 -> 일반유저 아니면 관리자
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
