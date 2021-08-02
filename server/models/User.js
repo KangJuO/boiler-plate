@@ -36,6 +36,9 @@
 
  //유저의 정보를 저장하기 function을 수행함.
  userSchema.pre('save', function (next) {
+    
+//John Ahn
+    
     let user = this;//위의 스키마를 가리킴;
     // 비밀번호만 변경했을때 비밀번호 암호화실행
     // 아이디 변경 등과 같은 경우에는 그대로 두기위함

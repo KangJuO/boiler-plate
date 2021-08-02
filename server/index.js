@@ -2,12 +2,14 @@
 //install mongoose module => can connect to mongDB
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 5000;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const config = require('./config/key');
 const { User } = require('./models/User');
 const { auth } = require('./middleware/auth');
+//const https = require('https');
+//const fs = require('fs');
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
@@ -22,8 +24,19 @@ mongoose.connect(config.mongoURI, {
 }).then(() =>  console.log('MongDB Connected...'))
   .catch(err => console.log(err ))
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+// https
+// .createServer(
+//   {
+//     key: fs.readFileSync(__dirname + '/key.pem', 'utf-8'),
+//     cert: fs.readFileSync(__dirname + '/cert.pem', 'utf-8'),
+//   },
+//   app.use('/', (req, res) => {
+//     res.send('Congrats! You made https server now :)');
+//   })
+// ).listen(port);
+
+app.get('/api/hello', (req,res) => {
+  res.send('hi')
 })
 
 app.post('/api/users/register', (req, res) => {
