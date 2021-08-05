@@ -3,11 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'antd/dist/antd.css';//ant design
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux'; //원래 store는 객체만 받을수 있지만
+import promiseMiddleware from 'redux-promise'
+import ReduxThunk from 'redux-thunk';//위에 두개를 사용해서 promise, function을 받을 수 있게 해줌
+import Reducer from './_reducers';
+
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
+
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider
+    store={createStoreWithMiddleware(Reducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__&&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
+    )}
+  >
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
