@@ -27,6 +27,8 @@ function LoginPage(props) {
         dispatch(loginUser(body))
             .then(response => {
                 if(response.payload.loginSuccess){
+                    //성공 했으면 
+                    console.log(props)
                     props.history.push('/');
                 } else{
                     alert('Error');

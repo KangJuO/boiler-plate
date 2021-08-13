@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import axios from 'axios'
 
 
-function LandingPage(props) {
+function LandingPage() {
 
     //랜딩에 들어오자마자 실행
     //그냥 요청하면 안됨 cors 정책을 따라야함
@@ -12,28 +12,17 @@ function LandingPage(props) {
         .then(res => console.log(res.data))
     }, [])
 
-    const onLogoutHandler = () => {
-        axios.get('/api/users/logout')
-            .then(response => {
-                if(response.data.success){
-                    props.history.push('/login')
-                } else {
-                    alert('Fail to Logout')
-                }
-            })
-    }
-
+    
     return (
-        <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            width: '100%', height: '100vh'
+        <>
+            <div style={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+            , width: '100%', height: '80vh'
         }}>
-            <h2>시작 페이지</h2>
-
-            <button onClick={onLogoutHandler}>
-                Logout
-            </button>
-        </div>
+                <div style={{ fontSize: '2rem' }}>NyamNyam!</div>
+                <div style={{fontSize: '2rem' }}>Boiler Plate</div>
+            </div>
+        </>
     )
 }
 
