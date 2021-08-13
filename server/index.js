@@ -52,7 +52,7 @@ app.post('/api/users/register', (req, res) => {
 })
 
 //로그인 기능
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
   //요청된 이메일을 db에서 찾는다
   User.findOne({ email : req.body.email }, (err, user) => {
     //이메일이 없으면(못찾으면)

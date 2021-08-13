@@ -36,9 +36,7 @@
 
  //유저의 정보를 저장하기 function을 수행함.
  userSchema.pre('save', function (next) {
-    
-//John Ahn
-    
+//John Ah
     let user = this;//위의 스키마를 가리킴;
     // 비밀번호만 변경했을때 비밀번호 암호화실행
     // 아이디 변경 등과 같은 경우에는 그대로 두기위함
@@ -80,7 +78,7 @@
  userSchema.methods.generateToken = function(callback){
     let user = this;
     //db에 자동으로 생성된 객체 아이디를 사용
-    let token = jwt.sign(user._id.toHexString(), 'secretToken');
+    let token = jwt.sign(user._id.toHexString(), 'secretToken');//env로 뺴야함
     //만들어진 토큰을 넣어줌
     user.token = token;
     //유저정보 저장
