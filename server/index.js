@@ -2,7 +2,7 @@
 //install mongoose module => can connect to mongDB
 const express = require('express');
 const app = express();
-const port = 5000;
+const port = 80;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const config = require('./config/key');
